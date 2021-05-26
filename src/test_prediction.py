@@ -24,11 +24,12 @@ def get_prediction():
     train_data = pd.read_csv("../data/train.csv")
     y = train_data.SalePrice
     features = ['LotArea', 'YearBuilt', '1stFlrSF', '2ndFlrSF', 'FullBath', 'BedroomAbvGr', 'TotRmsAbvGrd',
-                'MSSubClass',
-                'YrSold', 'MoSold']
+                'MSSubClass', 'YrSold', 'MoSold']
     X = train_data[features]
     train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
-    prices_model = RandomForestRegressor(n_estimators=get_n_estimators(train_X, val_X, train_y, val_y), random_state=1)
+    n = get_n_estimators(train_X, val_X, train_y, val_y)
+    print(n)
+    prices_model = RandomForestRegressor(n_estimators=n, random_state=1)
     prices_model.fit(train_X, train_y)
     val_predictions = prices_model.predict(val_X)
     val_mae = mean_absolute_error(val_predictions, val_y)
